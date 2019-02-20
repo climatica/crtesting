@@ -1,6 +1,6 @@
 FROM continuumio/miniconda3
 
-LABEL maintainer=ClimateRisk version=0.4
+LABEL maintainer=ClimateRisk version=0.4.1
 
 COPY *.requirements.txt ./
 COPY environment.yml ./
