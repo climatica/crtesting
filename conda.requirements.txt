@@ -1,6 +1,7 @@
 GDAL=2.4
 Flask>=1.0.2
 Flask-Cors>=3.0.6
+cartopy
 numpy>=1.15.4
 nomkl
 pytest
