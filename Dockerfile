@@ -1,19 +1,25 @@
-FROM ubuntu:18.10
+#### Use latest Ubuntu
+FROM ubuntu:focal
 
-LABEL maintainer=ClimateRisk version=0.6
+LABEL maintainer=ClimateRisk version=0.8
 
-RUN apt-get update 
-RUN apt-get install build-essential gcc g++ -y && apt-get clean
-RUN apt-get install libgdal-dev -y && apt-get clean
-RUN apt-get install python3-gdal python3-pip -y && apt-get clean
-RUN apt-get install cython3 -y && apt-get clean
+# Update base container install
+RUN apt-get update
+
+# Install GDAL dependencies
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y python3-minimal && apt-get clean
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y python3-pip && apt-get clean
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y libgdal-dev && apt-get clean
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y git && apt-get clean
 
 COPY *.requirements.txt ./
 
-# Optimisations from
-# https://towardsdatascience.com/how-to-shrink-numpy-scipy-pandas-and-matplotlib-for-your-data-product-4ec8d7e86ee4
-RUN CFLAGS="-g0 -Wl,--strip-all -I/usr/include:/usr/local/include -L/usr/lib:/usr/local/lib" \
-    pip3 install --no-cache-dir --compile \
-    --global-option=build_ext \
-    --global-option="-j 3" \
-    -r pip.requirements.txt
+RUN pip3 install --no-cache-dir numpy~=1.17.0
+RUN pip3 install --no-cache-dir -r pip.requirements.txt
+
+# This will install appropriate version of GDAL
+RUN pip3 install GDAL==$(gdal-config --version) --global-option=build_ext --global-option="-I/usr/include/gdal"
+
+RUN git clone --depth=1 https://github.com/Unidata/netcdf4-python && \
+    pip3 install ./netcdf4-python && \
+    rm -rf ./netcdf4-python
