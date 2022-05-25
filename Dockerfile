@@ -14,7 +14,6 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y git && apt-get clean
 
 COPY *.requirements.txt ./
 
-RUN pip3 install --no-cache-dir numpy~=1.17.0
 RUN pip3 install --no-cache-dir -r pip.requirements.txt
 
 # This will install appropriate version of GDAL

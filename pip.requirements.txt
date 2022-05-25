@@ -1,17 +1,17 @@
-Flask>=1.0.2
-Flask-Cors>=3.0.6
+Flask
+Flask-Cors
 pytest
 pytest-cov
 pyyaml
 joblib
-numpy>=1.16,<1.18
-scipy>=1.1.0
+numpy
+scipy
 pandas
 xarray
 # netcdf4 and GDAL added via DockerFile
 rasterio
 cartopy
 pyepsg
-tornado>=5.1.1
-uvloop>=0.11.3
-uWSGI>=2.0.16
+tornado
+uvloop
+uWSGI
